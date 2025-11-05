@@ -1,13 +1,17 @@
-package task3;
-
 public class ProductPart implements IProductPart {
-    private String name;
+    private final String name;
 
     public ProductPart(String name) {
         this.name = name;
     }
 
+    @Override
     public String getName() {
+        return name;
+    }
+
+    @Override
+    public String toString() {
         return name;
     }
 }

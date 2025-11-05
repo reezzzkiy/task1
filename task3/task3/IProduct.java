@@ -1,5 +1,3 @@
-package task3;
-
 public interface IProduct {
     void installFirstPart(IProductPart part);
     void installSecondPart(IProductPart part);
