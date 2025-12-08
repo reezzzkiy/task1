@@ -1,3 +1,16 @@
 # Editor directories and files
 .vscode/*
 !.vscode/extensions.json
+
+# Build artifacts
+bin/
+**/bin/
+*.class
+*.jar
+
+# IDE and OS files
+.classpath
+.project
+.idea/
+*.iml
+.DS_Store
