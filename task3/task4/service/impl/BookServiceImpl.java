@@ -33,14 +33,6 @@ public class BookServiceImpl implements BookService {
     }
 
     @Override
-    public List<Book> getStaleBooks(int months) {
-        LocalDate cutoff = LocalDate.now().minusMonths(months);
-        return books.values().stream()
-                .filter(book -> book.getLastSoldDate() == null || book.getLastSoldDate().isBefore(cutoff))
-                .collect(Collectors.toList());
-    }
-
-    @Override
     public void updateBook(Book book) {
         books.put(book.getId(), book);
     }
@@ -51,55 +43,55 @@ public class BookServiceImpl implements BookService {
     }
 
     @Override
-    public List<Book> getBooksSortedByTitle() {
-        return books.values().stream()
-                .sorted(Comparator.comparing(Book::getTitle))
-                .collect(Collectors.toList());
-    }
+    public List<Book> getBooks(SortType sortType) {
+        Comparator<Book> comparator = switch (sortType) {
+            case TITLE -> Comparator.comparing(Book::getTitle);
+            case PRICE -> Comparator.comparing(Book::getPrice);
+            case DATE_ADDED -> Comparator.comparing(Book::getArrivalDate);
+            case AVAILABILITY -> Comparator.comparing(Book::getStatus);
+            default -> null;
+        };
 
-    @Override
-    public List<Book> getBooksSortedByDate() {
         return books.values().stream()
-                .sorted(Comparator.comparing(Book::getArrivalDate))
-                .collect(Collectors.toList());
-    }
-
-    @Override
-    public List<Book> getBooksSortedByPrice() {
-        return books.values().stream()
-                .sorted(Comparator.comparingDouble(Book::getPrice))
-                .collect(Collectors.toList());
-    }
-
-    @Override
-    public List<Book> getBooksSortedByAvailability() {
-        return books.values().stream()
-                .sorted(Comparator.comparing(Book::getStatus))
+                .sorted(comparator != null ? comparator : (a, b) -> 0)
                 .collect(Collectors.toList());
     }
 
     @Override
     public List<Book> getStaleBooks() {
         LocalDate halfYearAgo = LocalDate.now().minusMonths(6);
+
         return books.values()
                 .stream()
-                .filter(book -> book.getLastSoldDate() == null
-                        || book.getLastSoldDate().isBefore(halfYearAgo))
+                .filter(b -> b.getLastSoldDate() == null ||
+                        b.getLastSoldDate().isBefore(halfYearAgo))
                 .collect(Collectors.toList());
     }
 
     @Override
-    public List<Book> getStaleBooksSortedByArrivalDate() {
+    public List<Book> getStaleBooks(SortType sortType) {
         return getStaleBooks().stream()
-                .sorted(Comparator.comparing(Book::getArrivalDate))
+                .sorted(getComparator(sortType))
                 .collect(Collectors.toList());
     }
 
     @Override
-    public List<Book> getStaleBooksSortedByPrice() {
-        return getStaleBooks().stream()
-                .sorted(Comparator.comparing(Book::getPrice))
+    public List<Book> getStaleBooks(int months) {
+        LocalDate date = LocalDate.now().minusMonths(months);
+
+        return books.values().stream()
+                .filter(book -> book.getLastSoldDate() == null ||
+                        book.getLastSoldDate().isBefore(date))
                 .collect(Collectors.toList());
     }
 
+    private Comparator<Book> getComparator(SortType sortType) {
+        return switch (sortType) {
+            case TITLE -> Comparator.comparing(Book::getTitle);
+            case PRICE -> Comparator.comparing(Book::getPrice);
+            case DATE_ADDED -> Comparator.comparing(Book::getArrivalDate);
+            case AVAILABILITY -> Comparator.comparing(Book::getStatus);
+            case NONE -> (a, b) -> 0;
+        };
+    }
 }

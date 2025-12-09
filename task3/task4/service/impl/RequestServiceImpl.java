@@ -7,6 +7,7 @@ import task4.service.RequestService;
 import java.time.LocalDate;
 import java.util.*;
 import java.util.concurrent.atomic.AtomicInteger;
+import java.util.stream.Collectors;
 
 public class RequestServiceImpl implements RequestService {
 
@@ -39,6 +40,20 @@ public class RequestServiceImpl implements RequestService {
     @Override
     public List<Request> getAllRequests() {
         return new ArrayList<>(requests.values());
+    }
+
+    @Override
+    public List<Request> getRequests(RequestService.SortType sortType) {
+        Comparator<Request> comparator = switch (sortType) {
+            case DATE -> Comparator.comparing(Request::getCreatedDate);
+            case STATUS -> Comparator.comparing(Request::getStatus);
+            case BOOK_ID -> Comparator.comparingInt(Request::getBookId);
+            case NONE -> (a, b) -> 0;
+        };
+
+        return requests.values().stream()
+                .sorted(comparator)
+                .collect(Collectors.toList());
     }
 
 }

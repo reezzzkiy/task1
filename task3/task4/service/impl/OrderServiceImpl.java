@@ -85,23 +85,16 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
-    public List<Order> getOrdersSortedByDate() {
-        return orders.values().stream()
-                .sorted(Comparator.comparing(Order::getOrderDate))
-                .collect(Collectors.toList());
-    }
+    public List<Order> getOrders(OrderService.SortType sortType) {
+        Comparator<Order> comparator = switch (sortType) {
+            case DATE -> Comparator.comparing(Order::getOrderDate);
+            case PRICE -> Comparator.comparingDouble(Order::getTotalPrice);
+            case STATUS -> Comparator.comparing(Order::getStatus);
+            case NONE -> null;
+        };
 
-    @Override
-    public List<Order> getOrdersSortedByPrice() {
         return orders.values().stream()
-                .sorted(Comparator.comparingDouble(Order::getTotalPrice))
-                .collect(Collectors.toList());
-    }
-
-    @Override
-    public List<Order> getOrdersSortedByStatus() {
-        return orders.values().stream()
-                .sorted(Comparator.comparing(Order::getStatus))
+                .sorted(comparator != null ? comparator : (a, b) -> 0)
                 .collect(Collectors.toList());
     }
 

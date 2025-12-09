@@ -8,6 +8,13 @@ import java.util.Optional;
 
 public interface OrderService {
 
+    enum SortType {
+        DATE,
+        PRICE,
+        STATUS,
+        NONE
+    }
+
     void createOrder(int bookId, Customer customer);
 
     void completeOrder(int orderId);
@@ -18,11 +25,7 @@ public interface OrderService {
 
     List<Order> getAllOrders();
 
-    List<Order> getOrdersSortedByDate();
-
-    List<Order> getOrdersSortedByPrice();
-
-    List<Order> getOrdersSortedByStatus();
+    List<Order> getOrders(SortType sortType);
 
     List<Order> getCompletedOrders(LocalDate from, LocalDate to);
 

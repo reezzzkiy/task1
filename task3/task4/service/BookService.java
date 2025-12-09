@@ -6,28 +6,22 @@ import java.util.Optional;
 
 public interface BookService {
 
+    enum SortType {
+        TITLE,
+        PRICE,
+        DATE_ADDED,
+        AVAILABILITY,
+        NONE
+    }
+
     void addBook(Book book);
-
     Optional<Book> getBookById(int id);
-
     void updateBook(Book book);
-
     List<Book> getAllBooks();
 
-    List<Book> getBooksSortedByTitle();
-
-    List<Book> getBooksSortedByDate();
-
-    List<Book> getBooksSortedByPrice();
-
-    List<Book> getBooksSortedByAvailability();
+    List<Book> getBooks(SortType sortType);
 
     List<Book> getStaleBooks();
-
-    List<Book> getStaleBooksSortedByArrivalDate();
-
-    List<Book> getStaleBooksSortedByPrice();
-
     List<Book> getStaleBooks(int months);
-
+    List<Book> getStaleBooks(SortType sortType);
 }

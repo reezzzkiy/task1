@@ -38,6 +38,18 @@ public class Request {
     }
 
     @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Request request)) return false;
+        return id == request.id;
+    }
+
+    @Override
+    public int hashCode() {
+        return java.util.Objects.hash(id);
+    }
+
+    @Override
     public String toString() {
         return "Request{" +
                 "id=" + id +
