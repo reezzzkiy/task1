@@ -1,5 +1,6 @@
 package task4.service.impl;
 
+import task4.enumerate.BookSortType;
 import task4.model.Book;
 import task4.model.BookStatus;
 import task4.service.BookService;
@@ -43,7 +44,7 @@ public class BookServiceImpl implements BookService {
     }
 
     @Override
-    public List<Book> getBooks(SortType sortType) {
+    public List<Book> getBooks(BookSortType sortType) {
         Comparator<Book> comparator = switch (sortType) {
             case TITLE -> Comparator.comparing(Book::getTitle);
             case PRICE -> Comparator.comparing(Book::getPrice);
@@ -69,7 +70,7 @@ public class BookServiceImpl implements BookService {
     }
 
     @Override
-    public List<Book> getStaleBooks(SortType sortType) {
+    public List<Book> getStaleBooks(BookSortType sortType) {
         return getStaleBooks().stream()
                 .sorted(getComparator(sortType))
                 .collect(Collectors.toList());
@@ -85,7 +86,7 @@ public class BookServiceImpl implements BookService {
                 .collect(Collectors.toList());
     }
 
-    private Comparator<Book> getComparator(SortType sortType) {
+    private Comparator<Book> getComparator(BookSortType sortType) {
         return switch (sortType) {
             case TITLE -> Comparator.comparing(Book::getTitle);
             case PRICE -> Comparator.comparing(Book::getPrice);
