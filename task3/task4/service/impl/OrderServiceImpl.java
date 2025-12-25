@@ -1,6 +1,7 @@
 package task4.service.impl;
 
 import task4.model.*;
+import task4.enumerate.OrderSortType;
 import task4.service.BookService;
 import task4.service.OrderService;
 import task4.service.RequestService;
@@ -44,7 +45,6 @@ public class OrderServiceImpl implements OrderService {
         }
     }
 
-
     @Override
     public void completeOrder(int orderId) {
         Order order = orders.get(orderId);
@@ -85,7 +85,7 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
-    public List<Order> getOrders(OrderService.SortType sortType) {
+    public List<Order> getOrders(OrderSortType sortType) {
         Comparator<Order> comparator = switch (sortType) {
             case DATE -> Comparator.comparing(Order::getOrderDate);
             case PRICE -> Comparator.comparingDouble(Order::getTotalPrice);

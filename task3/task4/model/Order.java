@@ -21,7 +21,6 @@ public class Order {
         this.totalPrice = book.getPrice();
     }
 
-
     public int getId() {
         return id;
     }
@@ -60,8 +59,10 @@ public class Order {
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (!(o instanceof Order order)) return false;
+        if (this == o)
+            return true;
+        if (!(o instanceof Order order))
+            return false;
         return id == order.id;
     }
 

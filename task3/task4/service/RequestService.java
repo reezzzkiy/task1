@@ -1,16 +1,10 @@
 package task4.service;
 
+import task4.enumerate.RequestSortType;
 import task4.model.Request;
 import java.util.List;
 
 public interface RequestService {
-
-    enum SortType {
-        DATE,
-        STATUS,
-        BOOK_ID,
-        NONE
-    }
 
     void createRequest(int bookId);
 
@@ -20,5 +14,5 @@ public interface RequestService {
 
     List<Request> getAllRequests();
 
-    List<Request> getRequests(SortType sortType);
+    List<Request> getRequests(RequestSortType sortType);
 }

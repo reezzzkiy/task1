@@ -2,6 +2,7 @@ package task4.service.impl;
 
 import task4.model.Request;
 import task4.model.RequestStatus;
+import task4.enumerate.RequestSortType;
 import task4.service.RequestService;
 
 import java.time.LocalDate;
@@ -43,7 +44,7 @@ public class RequestServiceImpl implements RequestService {
     }
 
     @Override
-    public List<Request> getRequests(RequestService.SortType sortType) {
+    public List<Request> getRequests(RequestSortType sortType) {
         Comparator<Request> comparator = switch (sortType) {
             case DATE -> Comparator.comparing(Request::getCreatedDate);
             case STATUS -> Comparator.comparing(Request::getStatus);
