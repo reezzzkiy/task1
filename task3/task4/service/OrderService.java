@@ -1,5 +1,6 @@
 package task4.service;
 
+import task4.enumerate.OrderSortType;
 import task4.model.Order;
 import task4.model.Customer;
 import java.time.LocalDate;
@@ -7,13 +8,6 @@ import java.util.List;
 import java.util.Optional;
 
 public interface OrderService {
-
-    enum SortType {
-        DATE,
-        PRICE,
-        STATUS,
-        NONE
-    }
 
     void createOrder(int bookId, Customer customer);
 
@@ -25,7 +19,7 @@ public interface OrderService {
 
     List<Order> getAllOrders();
 
-    List<Order> getOrders(SortType sortType);
+    List<Order> getOrders(OrderSortType sortType);
 
     List<Order> getCompletedOrders(LocalDate from, LocalDate to);
 

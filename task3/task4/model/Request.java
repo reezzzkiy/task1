@@ -16,7 +16,6 @@ public class Request {
         this.createdDate = createdDate;
     }
 
-
     public int getId() {
         return id;
     }
@@ -39,8 +38,10 @@ public class Request {
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (!(o instanceof Request request)) return false;
+        if (this == o)
+            return true;
+        if (!(o instanceof Request request))
+            return false;
         return id == request.id;
     }
 
