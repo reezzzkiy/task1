@@ -6,9 +6,5 @@ import task4.service.RequestService;
 
 public interface UIFactory {
     MenuController createMenuController(BookService bookService, OrderService orderService,
-            RequestService requestService);
-
-    Navigator createNavigator();
-
-    Builder createBuilder(BookService bookService, OrderService orderService, RequestService requestService);
+                                        RequestService requestService);
 }

@@ -1,5 +1,8 @@
 package task4.ui;
 
+import task4.controller.BookController;
+import task4.controller.OrderController;
+import task4.controller.RequestController;
 import task4.service.BookService;
 import task4.service.OrderService;
 import task4.service.RequestService;
@@ -15,12 +18,17 @@ public class MenuController {
 
     private MenuController(BookService bookService, OrderService orderService, RequestService requestService) {
         this.scanner = new Scanner(System.in);
-        this.builder = new Builder(bookService, orderService, requestService, scanner);
         this.navigator = new Navigator();
+
+        BookController bookController = new BookController(bookService, scanner);
+        OrderController orderController = new OrderController(orderService, scanner);
+        RequestController requestController = new RequestController(requestService, scanner);
+
+        this.builder = new Builder(bookController, orderController, requestController);
     }
 
     public static MenuController getInstance(BookService bookService, OrderService orderService,
-            RequestService requestService) {
+                                             RequestService requestService) {
         if (instance == null) {
             synchronized (MenuController.class) {
                 if (instance == null) {
